@@ -1,9 +1,14 @@
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute', 'chart.js']);
 
 /// Routes ///
-myApp.config(function($routeProvider, $locationProvider) {
+myApp.config(function($routeProvider, $locationProvider, ChartJsProvider) {
   $locationProvider.hashPrefix('');
   console.log('myApp -- config')
+
+  
+  ChartJsProvider.setOptions({ colors : [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+  
+
   $routeProvider
     .when('/home', {
       templateUrl: '/views/templates/home.html',

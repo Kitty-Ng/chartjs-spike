@@ -3,6 +3,10 @@
   <p>
     In Chart JS Spike
     <li ng-repeat="x in ic.chartData.data">{{x}}</li>
-    <canvas id="myChart" width="400" height="400"></canvas>    
+    <canvas id="bar" class="chart chart-bar" chart-data="data"
+    chart-labels="labels" chart-series="series">
+  </canvas>  
+
+  <canvas id="myChart" width="400" height="400"></canvas>
   </p>
 </div>
