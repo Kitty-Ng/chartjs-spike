@@ -3,7 +3,8 @@ myApp.service('UserService', function ($http, $location) {
 
   self.userObject = {};
   self.appliancesObj = { appliances: [] };
-  self.chartData = {data: []};
+  self.chartData = { data: [] };
+  self.mainChartYears = [];
 
   self.getuser = function () {
     $http({
@@ -22,14 +23,35 @@ myApp.service('UserService', function ($http, $location) {
 
   self.getChartData = function () {
     //on page load, GET all chart data from DB to the DOM
-    $http({
+    return $http({
       method: 'GET',
       url: '/chart'
     })
-    .then(function (res) {
-      self.chartData.data = res.data;
-    });
+      .then(function (res) {
+        self.chartData.data = res.data;
+        return self.chartData.data
+      })
+      .then(function (res) {
+
+        self.filteredYears = res.reduce(function (prev, curr) {
+          if (!prev[curr.year]) {
+            prev[curr.year] = [];
+          }
+
+          prev[curr.year].push(curr);
+
+          return prev;
+        }, {});
+
+        self.mainChartYears = Object.keys(self.filteredYears);
+
+        self.filteredYears = self.mainChartYears.map(function (year) {
+          return self.filteredYears[year].length;
+
+        });
+      })
   };
+
 
   self.logout = function () {
     $http({
